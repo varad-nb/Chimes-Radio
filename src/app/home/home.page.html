@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title class="ion-text-center">
+      CHIMES RADIO
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-button color="primary" size="full" (click)= "checkPermission()"> Get Permission</ion-button>
+    <ion-button color="primary" size="full" (click)= "startListening()"> Start Listening</ion-button>
+    <ion-button color="primary" size="full" (click)= "stopListening()"> Stop Listening</ion-button>
+  </ion-card>
+  <ion-card>
+  <ion-card-title>What I heard....</ion-card-title>
+  <ion-card-content>
+    <ion-list>
+      <ion-item *ngFor="let match of matches">
+        {{match}}
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+  <ion-list>
+    <!-- <ion-item>
+      <audio id="player" src="https://playerservices.streamtheworld.com/api/livestream-redirect/CHIMESRADIO_S01.mp3" type="audio/mpeg" ></audio>
+      <div>
+        <button onclick="document.getElementById('player').play()">Play</button>
+        <button onclick="document.getElementById('player').pause()">Pause</button>
+      </div> 
+    </ion-item> -->
+    <ng-container  *ngFor="let track of playlist" >
+      <ion-item *ngIf="track.radio" (click)="start(track)">
+     
+        <ion-label [color]="track == activeTrack ? 'success' : 'light'">{{ track.name }}</ion-label>
+        <ion-icon slot="end" color="light"  *ngIf="isPlaying && track == activeTrack" name = "pause">
+
+        </ion-icon>
+        <ion-icon slot="end" color="light"  *ngIf="!isPlaying && track == activeTrack" name = "play">
+        </ion-icon>
+      </ion-item>
+      </ng-container>
+      <h3 style="color: white;" class="ion-text-center ion-padding ion-margin" color="light" >
+        <ion-label>Top 5 weekly podcast from chimes radio</ion-label>
+      </h3>
+      <ng-container  *ngFor="let track of playlist" >
+        <ion-item *ngIf="!track.radio" (click)="start(track)">
+       
+          <ion-label [color]="track == activeTrack ? 'success' : 'light'">{{ track.name }}</ion-label>
+          <ion-icon slot="end" color="light"  *ngIf="isPlaying && track == activeTrack" name = "pause">
+  
+          </ion-icon>
+          <ion-icon slot="end" color="light"  *ngIf="!isPlaying && track == activeTrack" name = "play">
+          </ion-icon>
+        </ion-item>
+        </ng-container>
+    <!-- <ion-item>
+      <ion-label color="light" (click)="GetRssFeedData()">
+        CHIME PODCASTS
+      </ion-label>
+      <ion-icon slot="end" color="light"  name="microphone"></ion-icon>
+    </ion-item> -->
+  </ion-list>
+  <!-- <ion-list>
+    <ion-item >
+      <ion-card style="color: white;">
+        <ion-card-title>
+          {{RssData?.rss.channel[0].title[0]}}
+        </ion-card-title>
+        <ion-card-content *ngFor="let o of RssData?.rss.channel[0].item">
+           <a href="{{o.link[0]}}">
+            {{o.title[0]}}
+           </a> 
+        </ion-card-content>
+      </ion-card>
+      </ion-item>
+    </ion-list> -->
+</ion-content>
+
+<ion-footer >
+  <ion-toolbar color="dark">
+    <ion-row class="ion-text-center">
+      <ion-col size="" class="ion-text-center">
+       {{activeTrack?.name}}
+      </ion-col>
+      <!-- <ion-col size="12">
+          <!-- <ion-range #range [(ngModel)]="progress" max="100" color="success" (touchend)="seek()" (mouseup)="seek()"></ion-range> ->
+      </ion-col> -->
+      <ion-col size="12">
+
+        <ion-button fill="clear" (click)="prev()" color="light">
+          <ion-icon slot="icon-only" name="skip-backward"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" (click)="togglePlayer(false)" *ngIf="!isPlaying" color="light">
+          <ion-icon slot="icon-only" name="play"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" (click)="togglePlayer(true)" *ngIf="isPlaying" color="light">
+          <ion-icon slot="icon-only" name="pause"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" (click)="next()" color="light">
+          <ion-icon slot="icon-only" name="skip-forward"></ion-icon>
+        </ion-button>
+
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

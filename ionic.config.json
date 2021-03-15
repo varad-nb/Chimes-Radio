@@ -1,0 +1,7 @@
+{
+  "name": "myMusic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
